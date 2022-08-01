@@ -1,9 +1,9 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import './App.css'
 
 function App() {
   const [text, setText] = useState('')
-  const [timer, setTimer] = useState(10)
+  const [timer, setTimer] = useState(5)
 
   const handleTextChange = event => {
     setText(event.target.value)
@@ -14,6 +14,14 @@ function App() {
     const filteredWords = splitText.filter(word => word !== '')
     return filteredWords.length
   }
+
+  useEffect(() => {
+    if (timer > 0) {
+      setTimeout(() => {
+        setTimer(prevState => prevState - 1)
+      }, 1000)
+    }
+  }, [timer])
 
   return (
     <div className='App'>
