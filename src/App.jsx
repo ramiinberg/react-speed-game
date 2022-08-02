@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import './App.css'
 
 function App() {
@@ -8,6 +8,7 @@ function App() {
   const [timer, setTimer] = useState(STARTING_TIME)
   const [runCount, setRunCount] = useState(false)
   const [words, setWords] = useState(0)
+  const textareaRef = useRef(null)
 
   const handleTextChange = event => {
     setText(event.target.value)
@@ -17,6 +18,8 @@ function App() {
     setTimer(STARTING_TIME)
     setRunCount(true)
     setText('')
+    textareaRef.current.disabled = false
+    textareaRef.current.focus()
   }
 
   const calculateWords = newText => {
@@ -45,7 +48,12 @@ function App() {
   return (
     <div className='App'>
       <h1>How fast do you type?</h1>
-      <textarea value={text} onChange={handleTextChange} disabled={!runCount} />
+      <textarea
+        ref={textareaRef}
+        value={text}
+        onChange={handleTextChange}
+        disabled={!runCount}
+      />
       <h4>Time remaining: {timer}</h4>
       <button type='button' onClick={startGame} disabled={runCount}>
         Start
